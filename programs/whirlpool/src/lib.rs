@@ -1,4 +1,5 @@
 use anchor_lang::prelude::*;
+use events::{LiquidityDecreased, LiquidityIncreased, PoolInitialized, Traded};
 
 declare_id!("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc");
 
@@ -25,6 +26,11 @@ pub mod util;
 use crate::state::{LockType, OpenPositionBumps, OpenPositionWithMetadataBumps, WhirlpoolBumps};
 use crate::util::RemainingAccountsInfo;
 use instructions::*;
+
+pub type LiquidityIncreasedEvent = LiquidityIncreased;
+pub type LiquidityDecreasedEvent = LiquidityDecreased;
+pub type TradedEvent = Traded;
+pub type PoolInitializedEvent = PoolInitialized;
 
 #[program]
 pub mod whirlpool {
