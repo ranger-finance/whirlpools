@@ -3,11 +3,11 @@ use events::{LiquidityDecreased, LiquidityIncreased, PoolInitialized, Traded};
 
 declare_id!("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc");
 
-#[doc(hidden)]
+// #[doc(hidden)]
 pub mod constants;
-#[doc(hidden)]
+// #[doc(hidden)]
 pub mod errors;
-#[doc(hidden)]
+// #[doc(hidden)]
 pub mod events;
 #[doc(hidden)]
 pub mod instructions;
@@ -27,10 +27,10 @@ use crate::state::{LockType, OpenPositionBumps, OpenPositionWithMetadataBumps, W
 use crate::util::RemainingAccountsInfo;
 use instructions::*;
 
-pub type LiquidityIncreasedEvent = LiquidityIncreased;
-pub type LiquidityDecreasedEvent = LiquidityDecreased;
-pub type TradedEvent = Traded;
-pub type PoolInitializedEvent = PoolInitialized;
+// pub type LiquidityIncreasedEvent = LiquidityIncreased;
+// pub type LiquidityDecreasedEvent = LiquidityDecreased;
+// pub type TradedEvent = Traded;
+// pub type PoolInitializedEvent = PoolInitialized;
 
 #[program]
 pub mod whirlpool {
