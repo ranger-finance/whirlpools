@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
 #[event]
+#[derive(Debug)]
 pub struct PoolInitialized {
     pub whirlpool: Pubkey,
     pub whirlpools_config: Pubkey,
@@ -15,6 +16,7 @@ pub struct PoolInitialized {
 }
 
 #[event]
+#[derive(Debug)]
 pub struct LiquidityIncreased {
     pub whirlpool: Pubkey,
     pub position: Pubkey,
@@ -28,6 +30,7 @@ pub struct LiquidityIncreased {
 }
 
 #[event]
+#[derive(Debug)]
 pub struct LiquidityDecreased {
     pub whirlpool: Pubkey,
     pub position: Pubkey,
@@ -41,6 +44,7 @@ pub struct LiquidityDecreased {
 }
 
 #[event]
+#[derive(Debug)]
 pub struct Traded {
     pub whirlpool: Pubkey,
     pub a_to_b: bool,
