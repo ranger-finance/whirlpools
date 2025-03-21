@@ -14,7 +14,8 @@ use anchor_spl::token_2022::spl_token_2022::{
     state::AccountState,
 };
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
-use spl_transfer_hook_interface;
+// TODO - Commenting it to make it compatible with solana-program 1.16.3
+// use spl_transfer_hook_interface;
 
 #[allow(clippy::too_many_arguments)]
 pub fn transfer_from_owner_to_vault_v2<'info>(
@@ -73,18 +74,19 @@ pub fn transfer_from_owner_to_vault_v2<'info>(
             return Err(ErrorCode::NoExtraAccountsForTransferHook.into());
         }
 
-        spl_transfer_hook_interface::onchain::add_extra_accounts_for_execute_cpi(
-            &mut instruction,
-            &mut account_infos,
-            &hook_program_id,
-            // owner to vault
-            token_owner_account.to_account_info(), // from (owner account)
-            token_mint.to_account_info(),          // mint
-            token_vault.to_account_info(),         // to (vault account)
-            authority.to_account_info(),           // authority (owner)
-            amount,
-            transfer_hook_accounts.as_ref().unwrap(),
-        )?;
+        // TODO - Commenting it to make it compatible with solana-program 1.16.3
+        // spl_transfer_hook_interface::onchain::add_extra_accounts_for_execute_cpi(
+        //     &mut instruction,
+        //     &mut account_infos,
+        //     &hook_program_id,
+        //     // owner to vault
+        //     token_owner_account.to_account_info(), // from (owner account)
+        //     token_mint.to_account_info(),          // mint
+        //     token_vault.to_account_info(),         // to (vault account)
+        //     authority.to_account_info(),           // authority (owner)
+        //     amount,
+        //     transfer_hook_accounts.as_ref().unwrap(),
+        // )?;
     }
 
     solana_program::program::invoke_signed(&instruction, &account_infos, &[])?;
@@ -154,19 +156,19 @@ pub fn transfer_from_vault_to_owner_v2<'info>(
         if transfer_hook_accounts.is_none() {
             return Err(ErrorCode::NoExtraAccountsForTransferHook.into());
         }
-
-        spl_transfer_hook_interface::onchain::add_extra_accounts_for_execute_cpi(
-            &mut instruction,
-            &mut account_infos,
-            &hook_program_id,
-            // vault to owner
-            token_vault.to_account_info(), // from (vault account)
-            token_mint.to_account_info(),  // mint
-            token_owner_account.to_account_info(), // to (owner account)
-            whirlpool.to_account_info(),   // authority (pool)
-            amount,
-            transfer_hook_accounts.as_ref().unwrap(),
-        )?;
+        // TODO - Commenting it to make it compatible with solana-program 1.16.3
+        // spl_transfer_hook_interface::onchain::add_extra_accounts_for_execute_cpi(
+        //     &mut instruction,
+        //     &mut account_infos,
+        //     &hook_program_id,
+        //     // vault to owner
+        //     token_vault.to_account_info(), // from (vault account)
+        //     token_mint.to_account_info(),  // mint
+        //     token_owner_account.to_account_info(), // to (owner account)
+        //     whirlpool.to_account_info(),   // authority (pool)
+        //     amount,
+        //     transfer_hook_accounts.as_ref().unwrap(),
+        // )?;
     }
 
     solana_program::program::invoke_signed(&instruction, &account_infos, &[&whirlpool.seeds()])?;
