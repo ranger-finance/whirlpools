@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::util::{parse_remaining_accounts, AccountsType, RemainingAccountsInfo};
@@ -37,7 +38,8 @@ pub struct CollectRewardV2<'info> {
 
     #[account(address = *reward_mint.to_account_info().owner)]
     pub reward_token_program: Interface<'info, TokenInterface>,
-    pub memo_program: Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // pub memo_program: Program<'info, Memo>,
     // remaining accounts
     // - accounts for transfer hook program of reward_mint
 }
@@ -88,7 +90,8 @@ pub fn handler<'info>(
         &ctx.accounts.reward_vault,
         &ctx.accounts.reward_owner_account,
         &ctx.accounts.reward_token_program,
-        &ctx.accounts.memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // &ctx.accounts.memo_program,
         &remaining_accounts.transfer_hook_reward,
         transfer_amount,
         transfer_memo::TRANSFER_MEMO_COLLECT_REWARD.as_bytes(),

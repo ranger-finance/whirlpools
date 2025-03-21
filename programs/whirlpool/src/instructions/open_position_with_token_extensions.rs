@@ -63,7 +63,7 @@ pub fn handler(
     let position_seeds = [
         b"position".as_ref(),
         position_mint.key.as_ref(),
-        &[ctx.bumps.position],
+        &[*ctx.bumps.get("position").unwrap()],
     ];
 
     position.open_position(

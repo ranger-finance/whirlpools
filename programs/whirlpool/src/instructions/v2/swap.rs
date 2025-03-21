@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::util::{
@@ -25,7 +26,8 @@ pub struct SwapV2<'info> {
     #[account(address = *token_mint_b.to_account_info().owner)]
     pub token_program_b: Interface<'info, TokenInterface>,
 
-    pub memo_program: Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // pub memo_program: Program<'info, Memo>,
 
     pub token_authority: Signer<'info>,
 
@@ -172,7 +174,7 @@ pub fn handler<'info>(
         &remaining_accounts.transfer_hook_b,
         &ctx.accounts.token_program_a,
         &ctx.accounts.token_program_b,
-        &ctx.accounts.memo_program,
+        // &ctx.accounts.memo_program,
         swap_update,
         a_to_b,
         timestamp,

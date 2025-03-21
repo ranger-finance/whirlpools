@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::swap_with_transfer_fee_extension;
@@ -91,7 +92,8 @@ pub struct TwoHopSwapV2<'info> {
     /// CHECK: Oracle is currently unused and will be enabled on subsequent updates
     pub oracle_two: UncheckedAccount<'info>,
 
-    pub memo_program: Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // pub memo_program: Program<'info, Memo>,
     // remaining accounts
     // - accounts for transfer hook program of token_mint_input
     // - accounts for transfer hook program of token_mint_intermediate
@@ -439,7 +441,8 @@ pub fn handler<'info>(
         &remaining_accounts.transfer_hook_intermediate,
         &remaining_accounts.transfer_hook_output,
         &ctx.accounts.token_authority,
-        &ctx.accounts.memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // &ctx.accounts.memo_program,
         timestamp,
         transfer_memo::TRANSFER_MEMO_SWAP.as_bytes(),
     )?;

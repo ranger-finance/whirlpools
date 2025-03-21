@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::{manager::swap_manager::PostSwapUpdate, state::Whirlpool};
@@ -20,7 +21,8 @@ pub fn update_and_swap_whirlpool_v2<'info>(
     transfer_hook_accounts_b: &Option<Vec<AccountInfo<'info>>>,
     token_program_a: &Interface<'info, TokenInterface>,
     token_program_b: &Interface<'info, TokenInterface>,
-    memo_program: &Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // memo_program: &Program<'info, Memo>,
     swap_update: PostSwapUpdate,
     is_token_fee_in_a: bool,
     reward_last_updated_timestamp: u64,
@@ -50,7 +52,6 @@ pub fn update_and_swap_whirlpool_v2<'info>(
         transfer_hook_accounts_b,
         token_program_a,
         token_program_b,
-        memo_program,
         swap_update.amount_a,
         swap_update.amount_b,
         is_token_fee_in_a,
@@ -72,7 +73,8 @@ fn perform_swap_v2<'info>(
     transfer_hook_accounts_b: &Option<Vec<AccountInfo<'info>>>,
     token_program_a: &Interface<'info, TokenInterface>,
     token_program_b: &Interface<'info, TokenInterface>,
-    memo_program: &Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // memo_program: &Program<'info, Memo>,
     amount_a: u64,
     amount_b: u64,
     a_to_b: bool,
@@ -130,7 +132,8 @@ fn perform_swap_v2<'info>(
         deposit_account_user,
         deposit_account_pool,
         deposit_token_program,
-        memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo_program,
         deposit_transfer_hook_accounts,
         deposit_amount,
     )?;
@@ -141,7 +144,8 @@ fn perform_swap_v2<'info>(
         withdrawal_account_pool,
         withdrawal_account_user,
         withdrawal_token_program,
-        memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo_program,
         withdrawal_transfer_hook_accounts,
         withdrawal_amount,
         memo,
@@ -182,7 +186,8 @@ pub fn update_and_two_hop_swap_whirlpool_v2<'info>(
     transfer_hook_accounts_output: &Option<Vec<AccountInfo<'info>>>,
     // common
     token_authority: &Signer<'info>,
-    memo_program: &Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // memo_program: &Program<'info, Memo>,
     reward_last_updated_timestamp: u64,
     memo: &[u8],
 ) -> Result<()> {
@@ -226,7 +231,8 @@ pub fn update_and_two_hop_swap_whirlpool_v2<'info>(
         token_owner_account_input,
         token_vault_one_input,
         token_program_input,
-        memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo_program,
         transfer_hook_accounts_input,
         input_amount,
     )?;
@@ -238,7 +244,8 @@ pub fn update_and_two_hop_swap_whirlpool_v2<'info>(
         token_vault_one_intermediate,
         token_vault_two_intermediate,
         token_program_intermediate,
-        memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo_program,
         transfer_hook_accounts_intermediate,
         intermediate_amount,
         memo,
@@ -250,7 +257,8 @@ pub fn update_and_two_hop_swap_whirlpool_v2<'info>(
         token_vault_two_output,
         token_owner_account_output,
         token_program_output,
-        memo_program,
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo_program,
         transfer_hook_accounts_output,
         output_amount,
         memo,

@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::errors::ErrorCode;
@@ -27,7 +28,8 @@ pub struct ModifyLiquidityV2<'info> {
     #[account(address = *token_mint_b.to_account_info().owner)]
     pub token_program_b: Interface<'info, TokenInterface>,
 
-    pub memo_program: Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // pub memo_program: Program<'info, Memo>,
 
     pub position_authority: Signer<'info>,
 
@@ -135,7 +137,7 @@ pub fn handler<'info>(
         &ctx.accounts.token_owner_account_a,
         &ctx.accounts.token_vault_a,
         &ctx.accounts.token_program_a,
-        &ctx.accounts.memo_program,
+        // &ctx.accounts.memo_program,
         &remaining_accounts.transfer_hook_a,
         transfer_fee_included_delta_a.amount,
     )?;
@@ -146,7 +148,7 @@ pub fn handler<'info>(
         &ctx.accounts.token_owner_account_b,
         &ctx.accounts.token_vault_b,
         &ctx.accounts.token_program_b,
-        &ctx.accounts.memo_program,
+        // &ctx.accounts.memo_program,
         &remaining_accounts.transfer_hook_b,
         transfer_fee_included_delta_b.amount,
     )?;

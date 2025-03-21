@@ -24,16 +24,17 @@ pub fn initialize_position_mint_2022<'info>(
     token_2022_program: &Program<'info, Token2022>,
     use_token_metadata_extension: bool,
 ) -> Result<()> {
-    let space = ExtensionType::try_calculate_account_len::<spl_token_2022::state::Mint>(
-        if use_token_metadata_extension {
-            &[
-                ExtensionType::MintCloseAuthority,
-                ExtensionType::MetadataPointer,
-            ]
-        } else {
-            &[ExtensionType::MintCloseAuthority]
-        },
-    )?;
+    // let space = ExtensionType::try_calculate_account_len::<spl_token_2022::state::Mint>(
+    //     if use_token_metadata_extension {
+    //         &[
+    //             ExtensionType::MintCloseAuthority,
+    //             ExtensionType::MetadataPointer,
+    //         ]
+    //     } else {
+    //         &[ExtensionType::MintCloseAuthority]
+    //     },
+    // )?;
+    let space = 1000;
 
     let lamports = Rent::get()?.minimum_balance(space);
 
@@ -76,19 +77,19 @@ pub fn initialize_position_mint_2022<'info>(
 
         // initialize MetadataPointer extension
         // authority: None
-        invoke(
-            &spl_token_2022::extension::metadata_pointer::instruction::initialize(
-                token_2022_program.key,
-                position_mint.key,
-                None,
-                Some(position_mint.key()),
-            )?,
-            &[
-                position_mint.to_account_info(),
-                authority.to_account_info(),
-                token_2022_program.to_account_info(),
-            ],
-        )?;
+        // invoke(
+        //     &spl_token_2022::extension::metadata_pointer::instruction::initialize(
+        //         token_2022_program.key,
+        //         position_mint.key,
+        //         None,
+        //         Some(position_mint.key()),
+        //     )?,
+        //     &[
+        //         position_mint.to_account_info(),
+        //         authority.to_account_info(),
+        //         token_2022_program.to_account_info(),
+        //     ],
+        // )?;
     }
 
     // initialize Mint
@@ -127,19 +128,20 @@ pub fn initialize_token_metadata_extension<'info>(
 ) -> Result<()> {
     let mint_authority = position;
 
-    let metadata = spl_token_metadata_interface::state::TokenMetadata {
-        name,
-        symbol,
-        uri,
-        ..Default::default()
-    };
+    // let metadata = spl_token_metadata_interface::state::TokenMetadata {
+    //     name,
+    //     symbol,
+    //     uri,
+    //     ..Default::default()
+    // };
 
     // we need to add rent for TokenMetadata extension to reallocate space
     let token_mint_data = position_mint.try_borrow_data()?;
     let token_mint_unpacked =
         StateWithExtensions::<spl_token_2022::state::Mint>::unpack(&token_mint_data)?;
-    let new_account_len = token_mint_unpacked
-        .try_get_new_account_len::<spl_token_metadata_interface::state::TokenMetadata>(&metadata)?;
+    // let new_account_len = token_mint_unpacked
+    //     .try_get_new_account_len::<spl_token_metadata_interface::state::TokenMetadata>(&metadata)?;
+    let new_account_len = 0;
     let new_rent_exempt_minimum = Rent::get()?.minimum_balance(new_account_len);
     let additional_rent = new_rent_exempt_minimum.saturating_sub(position_mint.lamports());
     drop(token_mint_data); // CPI call will borrow the account data
@@ -156,25 +158,25 @@ pub fn initialize_token_metadata_extension<'info>(
 
     // initialize TokenMetadata extension
     // update authority: WP_NFT_UPDATE_AUTH
-    invoke_signed(
-        &spl_token_metadata_interface::instruction::initialize(
-            token_2022_program.key,
-            position_mint.key,
-            metadata_update_authority.key,
-            position_mint.key,
-            &mint_authority.key(),
-            metadata.name,
-            metadata.symbol,
-            metadata.uri,
-        ),
-        &[
-            position_mint.to_account_info(),
-            mint_authority.to_account_info(),
-            metadata_update_authority.to_account_info(),
-            token_2022_program.to_account_info(),
-        ],
-        &[position_seeds],
-    )?;
+    // invoke_signed(
+    //     &spl_token_metadata_interface::instruction::initialize(
+    //         token_2022_program.key,
+    //         position_mint.key,
+    //         metadata_update_authority.key,
+    //         position_mint.key,
+    //         &mint_authority.key(),
+    //         metadata.name,
+    //         metadata.symbol,
+    //         metadata.uri,
+    //     ),
+    //     &[
+    //         position_mint.to_account_info(),
+    //         mint_authority.to_account_info(),
+    //         metadata_update_authority.to_account_info(),
+    //         token_2022_program.to_account_info(),
+    //     ],
+    //     &[position_seeds],
+    // )?;
 
     Ok(())
 }

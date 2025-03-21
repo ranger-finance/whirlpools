@@ -78,7 +78,7 @@ pub fn handler(
     let default_fee_rate = ctx.accounts.fee_tier.default_fee_rate;
 
     // ignore the bump passed and use one Anchor derived
-    let bump = ctx.bumps.whirlpool;
+    let bump = *ctx.bumps.get("whirlpool").unwrap();
 
     // Don't allow creating a pool with unsupported token mints
     let is_token_badge_initialized_a = is_token_badge_initialized(

@@ -6,7 +6,7 @@ use anchor_spl::token_2022::spl_token_2022::extension::transfer_fee::{
 };
 use anchor_spl::token_interface::spl_token_2022::extension::BaseStateWithExtensions;
 
-use anchor_spl::memo::{self, BuildMemo, Memo};
+// use anchor_spl::memo::{self, BuildMemo, Memo};
 use anchor_spl::token::Token;
 use anchor_spl::token_2022::spl_token_2022::{
     self,
@@ -24,7 +24,8 @@ pub fn transfer_from_owner_to_vault_v2<'info>(
     token_owner_account: &InterfaceAccount<'info, TokenAccount>,
     token_vault: &InterfaceAccount<'info, TokenAccount>,
     token_program: &Interface<'info, TokenInterface>,
-    memo_program: &Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // memo_program: &Program<'info, Memo>,
     transfer_hook_accounts: &Option<Vec<AccountInfo<'info>>>,
     amount: u64,
 ) -> Result<()> {
@@ -38,10 +39,11 @@ pub fn transfer_from_owner_to_vault_v2<'info>(
             u16::from(epoch_transfer_fee.transfer_fee_basis_points),
             u64::from(epoch_transfer_fee.maximum_fee),
         );
-        memo::build_memo(
-            CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
-            transfer_fee_memo.as_bytes(),
-        )?;
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo::build_memo(
+        //     CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
+        //     transfer_fee_memo.as_bytes(),
+        // )?;
     }
 
     // MemoTransfer extension
@@ -101,7 +103,8 @@ pub fn transfer_from_vault_to_owner_v2<'info>(
     token_vault: &InterfaceAccount<'info, TokenAccount>,
     token_owner_account: &InterfaceAccount<'info, TokenAccount>,
     token_program: &Interface<'info, TokenInterface>,
-    memo_program: &Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // memo_program: &Program<'info, Memo>,
     transfer_hook_accounts: &Option<Vec<AccountInfo<'info>>>,
     amount: u64,
     memo: &[u8],
@@ -116,18 +119,20 @@ pub fn transfer_from_vault_to_owner_v2<'info>(
             u16::from(epoch_transfer_fee.transfer_fee_basis_points),
             u64::from(epoch_transfer_fee.maximum_fee),
         );
-        memo::build_memo(
-            CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
-            transfer_fee_memo.as_bytes(),
-        )?;
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo::build_memo(
+        //     CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
+        //     transfer_fee_memo.as_bytes(),
+        // )?;
     }
 
     // MemoTransfer extension
     if is_transfer_memo_required(token_owner_account)? {
-        memo::build_memo(
-            CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
-            memo,
-        )?;
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // memo::build_memo(
+        //     CpiContext::new(memo_program.to_account_info(), BuildMemo {}),
+        //     memo,
+        // )?;
     }
 
     let mut instruction = spl_token_2022::instruction::transfer_checked(
@@ -185,9 +190,13 @@ fn get_transfer_hook_program_id(token_mint: &InterfaceAccount<'_, Mint>) -> Resu
     let token_mint_data = token_mint_info.try_borrow_data()?;
     let token_mint_unpacked =
         StateWithExtensions::<spl_token_2022::state::Mint>::unpack(&token_mint_data)?;
-    Ok(extension::transfer_hook::get_program_id(
-        &token_mint_unpacked,
-    ))
+    Ok(
+        // TODO - Commenting to make it compatible with anchor v0.28.0
+        // extension::transfer_hook::get_program_id(
+        // &token_mint_unpacked,
+        // )
+        Some(Pubkey::default())
+    )
 }
 
 fn is_transfer_memo_required(token_account: &InterfaceAccount<'_, TokenAccount>) -> Result<bool> {
@@ -242,8 +251,8 @@ pub fn is_supported_token_mint(
             // supported
             extension::ExtensionType::TransferFeeConfig => {}
             extension::ExtensionType::InterestBearingConfig => {}
-            extension::ExtensionType::TokenMetadata => {}
-            extension::ExtensionType::MetadataPointer => {}
+            // extension::ExtensionType::TokenMetadata => {}
+            // extension::ExtensionType::MetadataPointer => {}
             // partially supported
             extension::ExtensionType::ConfidentialTransferMint => {
                 // Supported, but non-confidential transfer only
@@ -254,22 +263,22 @@ pub fn is_supported_token_mint(
                 // it is impossible to send tokens directly to the vault accounts confidentially.
                 // Note: Only the owner (Whirlpool account) can call ConfidentialTransferInstruction::ConfigureAccount.
             }
-            extension::ExtensionType::ConfidentialTransferFeeConfig => {
-                // Supported, but non-confidential transfer only
-                // When both TransferFeeConfig and ConfidentialTransferMint are initialized,
-                // ConfidentialTransferFeeConfig is also initialized to store encrypted transfer fee amount.
-            }
+            // extension::ExtensionType::ConfidentialTransferFeeConfig => {
+            //     // Supported, but non-confidential transfer only
+            //     // When both TransferFeeConfig and ConfidentialTransferMint are initialized,
+            //     // ConfidentialTransferFeeConfig is also initialized to store encrypted transfer fee amount.
+            // }
             // supported if token badge is initialized
             extension::ExtensionType::PermanentDelegate => {
                 if !is_token_badge_initialized {
                     return Ok(false);
                 }
             }
-            extension::ExtensionType::TransferHook => {
-                if !is_token_badge_initialized {
-                    return Ok(false);
-                }
-            }
+            // extension::ExtensionType::TransferHook => {
+            //     if !is_token_badge_initialized {
+            //         return Ok(false);
+            //     }
+            // }
             extension::ExtensionType::MintCloseAuthority => {
                 if !is_token_badge_initialized {
                     return Ok(false);

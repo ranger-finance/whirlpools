@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::memo::Memo;
+// TODO - Commenting to make it compatible with anchor v0.28.0
+// use anchor_spl::memo::Memo;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
 use crate::util::{parse_remaining_accounts, AccountsType, RemainingAccountsInfo};
@@ -42,7 +43,8 @@ pub struct CollectFeesV2<'info> {
     pub token_program_a: Interface<'info, TokenInterface>,
     #[account(address = *token_mint_b.to_account_info().owner)]
     pub token_program_b: Interface<'info, TokenInterface>,
-    pub memo_program: Program<'info, Memo>,
+    // TODO - Commenting to make it compatible with anchor v0.28.0
+    // pub memo_program: Program<'info, Memo>,
     // remaining accounts
     // - accounts for transfer hook program of token_mint_a
     // - accounts for transfer hook program of token_mint_b
@@ -78,7 +80,7 @@ pub fn handler<'info>(
         &ctx.accounts.token_vault_a,
         &ctx.accounts.token_owner_account_a,
         &ctx.accounts.token_program_a,
-        &ctx.accounts.memo_program,
+        // &ctx.accounts.memo_program,
         &remaining_accounts.transfer_hook_a,
         fee_owed_a,
         transfer_memo::TRANSFER_MEMO_COLLECT_FEES.as_bytes(),
@@ -90,7 +92,7 @@ pub fn handler<'info>(
         &ctx.accounts.token_vault_b,
         &ctx.accounts.token_owner_account_b,
         &ctx.accounts.token_program_b,
-        &ctx.accounts.memo_program,
+        // &ctx.accounts.memo_program,
         &remaining_accounts.transfer_hook_b,
         fee_owed_b,
         transfer_memo::TRANSFER_MEMO_COLLECT_FEES.as_bytes(),

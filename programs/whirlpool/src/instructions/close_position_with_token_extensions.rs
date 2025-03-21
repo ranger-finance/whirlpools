@@ -61,7 +61,7 @@ pub fn handler(ctx: Context<ClosePositionWithTokenExtensions>) -> Result<()> {
         &[
             b"position".as_ref(),
             ctx.accounts.position_mint.key().as_ref(),
-            &[ctx.bumps.position],
+            &[*ctx.bumps.get("position").unwrap()],
         ],
     )?;
 

@@ -63,7 +63,7 @@ pub fn handler(
     let default_fee_rate = ctx.accounts.fee_tier.default_fee_rate;
 
     // ignore the bump passed and use one Anchor derived
-    let bump = ctx.bumps.whirlpool;
+    let bump = *ctx.bumps.get("whirlpool").unwrap();
 
     whirlpool.initialize(
         whirlpools_config,

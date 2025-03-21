@@ -1,6 +1,8 @@
 use crate::state::{PositionBundle, Whirlpool};
 use anchor_lang::prelude::*;
-use anchor_spl::metadata::{self, mpl_token_metadata::types::DataV2, CreateMetadataAccountsV3};
+use anchor_spl::metadata::{self,
+    // mpl_token_metadata::types::DataV2,
+    CreateMetadataAccountsV3};
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 use solana_program::program::invoke_signed;
 use spl_token::instruction::{burn_checked, close_account, mint_to, set_authority, AuthorityType};
@@ -134,33 +136,33 @@ pub fn mint_position_token_with_metadata_and_remove_authority<'info>(
     )?;
 
     let metadata_mint_auth_account = whirlpool;
-    metadata::create_metadata_accounts_v3(
-        CpiContext::new_with_signer(
-            metadata_program.to_account_info(),
-            CreateMetadataAccountsV3 {
-                metadata: position_metadata_account.to_account_info(),
-                mint: position_mint.to_account_info(),
-                mint_authority: metadata_mint_auth_account.to_account_info(),
-                update_authority: metadata_update_auth.to_account_info(),
-                payer: funder.to_account_info(),
-                rent: rent.to_account_info(),
-                system_program: system_program.to_account_info(),
-            },
-            &[&metadata_mint_auth_account.seeds()],
-        ),
-        DataV2 {
-            name: WP_METADATA_NAME.to_string(),
-            symbol: WP_METADATA_SYMBOL.to_string(),
-            uri: WP_METADATA_URI.to_string(),
-            creators: None,
-            seller_fee_basis_points: 0,
-            collection: None,
-            uses: None,
-        },
-        true,
-        false,
-        None,
-    )?;
+    // metadata::create_metadata_accounts_v3(
+    //     CpiContext::new_with_signer(
+    //         metadata_program.to_account_info(),
+    //         CreateMetadataAccountsV3 {
+    //             metadata: position_metadata_account.to_account_info(),
+    //             mint: position_mint.to_account_info(),
+    //             mint_authority: metadata_mint_auth_account.to_account_info(),
+    //             update_authority: metadata_update_auth.to_account_info(),
+    //             payer: funder.to_account_info(),
+    //             rent: rent.to_account_info(),
+    //             system_program: system_program.to_account_info(),
+    //         },
+    //         &[&metadata_mint_auth_account.seeds()],
+    //     ),
+    //     DataV2 {
+    //         name: WP_METADATA_NAME.to_string(),
+    //         symbol: WP_METADATA_SYMBOL.to_string(),
+    //         uri: WP_METADATA_URI.to_string(),
+    //         creators: None,
+    //         seller_fee_basis_points: 0,
+    //         collection: None,
+    //         uses: None,
+    //     },
+    //     true,
+    //     false,
+    //     None,
+    // )?;
 
     remove_position_token_mint_authority(whirlpool, position_mint, token_program)
 }
@@ -269,33 +271,33 @@ pub fn mint_position_bundle_token_with_metadata_and_remove_authority<'info>(
     nft_name += "...";
     nft_name += &mint_address[mint_address.len() - 4..];
 
-    metadata::create_metadata_accounts_v3(
-        CpiContext::new_with_signer(
-            metadata_program.to_account_info(),
-            CreateMetadataAccountsV3 {
-                metadata: position_bundle_metadata.to_account_info(),
-                mint: position_bundle_mint.to_account_info(),
-                mint_authority: position_bundle.to_account_info(),
-                update_authority: metadata_update_auth.to_account_info(),
-                payer: funder.to_account_info(),
-                rent: rent.to_account_info(),
-                system_program: system_program.to_account_info(),
-            },
-            &[position_bundle_seeds],
-        ),
-        DataV2 {
-            name: nft_name,
-            symbol: WPB_METADATA_SYMBOL.to_string(),
-            uri: WPB_METADATA_URI.to_string(),
-            creators: None,
-            seller_fee_basis_points: 0,
-            collection: None,
-            uses: None,
-        },
-        true,
-        false,
-        None,
-    )?;
+    // metadata::create_metadata_accounts_v3(
+    //     CpiContext::new_with_signer(
+    //         metadata_program.to_account_info(),
+    //         CreateMetadataAccountsV3 {
+    //             metadata: position_bundle_metadata.to_account_info(),
+    //             mint: position_bundle_mint.to_account_info(),
+    //             mint_authority: position_bundle.to_account_info(),
+    //             update_authority: metadata_update_auth.to_account_info(),
+    //             payer: funder.to_account_info(),
+    //             rent: rent.to_account_info(),
+    //             system_program: system_program.to_account_info(),
+    //         },
+    //         &[position_bundle_seeds],
+    //     ),
+    //     DataV2 {
+    //         name: nft_name,
+    //         symbol: WPB_METADATA_SYMBOL.to_string(),
+    //         uri: WPB_METADATA_URI.to_string(),
+    //         creators: None,
+    //         seller_fee_basis_points: 0,
+    //         collection: None,
+    //         uses: None,
+    //     },
+    //     true,
+    //     false,
+    //     None,
+    // )?;
 
     remove_position_bundle_token_mint_authority(
         position_bundle,
